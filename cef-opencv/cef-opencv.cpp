@@ -1,17 +1,72 @@
+#include <windows.h>
+
+#include <thread>
 #include <iostream>
 #include <opencv2/opencv.hpp>
+
+#include "cefsimple/simple_app.h"
+#include "include/cef_command_line.h"
+#include "include/cef_sandbox_win.h"
 
 using namespace cv;
 using namespace std;
 
-int main(int argc, char* argv[]) {
+int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+                      LPTSTR lpCmdLine, int nCmdShow) {
+  // Enable High-DPI support on Windows 7 or newer.
+  CefEnableHighDPISupport();
+
+  // Provide CEF with command-line arguments.
+  CefMainArgs main_args(hInstance);
+
+  // CEF applications have multiple sub-processes (render, plugin, GPU, etc)
+  // that share the same executable. This function checks the command-line and,
+  // if this is a sub-process, executes the appropriate logic.
+  int exit_code = CefExecuteProcess(main_args, nullptr, nullptr);
+  if (exit_code >= 0) {
+    // The sub-process has completed so return here.
+    return exit_code;
+  }
+
+  // Parse command-line arguments for use in this method.
+  CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
+  command_line->InitFromString(::GetCommandLineW());
+
+  // Specify CEF global settings here.
+  CefSettings settings;
+
+  if (command_line->HasSwitch("enable-chrome-runtime")) {
+    // Enable experimental Chrome runtime. See issue #2969 for details.
+    settings.chrome_runtime = true;
+  }
+
+  settings.no_sandbox = true;
+
+  // SimpleApp implements application-level callbacks for the browser process.
+  // It will create the first browser instance in OnContextInitialized() after
+  // CEF has initialized.
+
+  auto lCefFunction = [&]() -> void {
+    CefRefPtr<SimpleApp> app(new SimpleApp);
+
+    // Initialize CEF.
+    CefInitialize(main_args, settings, app.get(), nullptr);
+
+    // Run the CEF message loop. This will block until CefQuitMessageLoop() is
+    // called.
+    CefRunMessageLoop();
+
+    // Shut down CEF.
+    CefShutdown();
+  };
+
+  std::thread lThread = std::thread(lCefFunction);
+
   // Open the default video camera
   VideoCapture cap(0);
 
   // if not success, exit program
   if (cap.isOpened() == false) {
-    cout << "Cannot open the video camera" << endl;
-    cin.get();  // wait for any key press
     return -1;
   }
 
@@ -19,8 +74,6 @@ int main(int argc, char* argv[]) {
       cap.get(CAP_PROP_FRAME_WIDTH);  // get the width of frames of the video
   double dHeight =
       cap.get(CAP_PROP_FRAME_HEIGHT);  // get the height of frames of the video
-
-  cout << "Resolution of the video : " << dWidth << " x " << dHeight << endl;
 
   string window_name = "My Camera Feed";
   namedWindow(window_name);  // create a window called "My Camera Feed"
@@ -31,8 +84,6 @@ int main(int argc, char* argv[]) {
 
     // Breaking the while loop if the frames cannot be captured
     if (bSuccess == false) {
-      cout << "Video camera is disconnected" << endl;
-      cin.get();  // Wait for any key press
       break;
     }
 
@@ -44,10 +95,8 @@ int main(int argc, char* argv[]) {
     // If the any other key is pressed, continue the loop
     // If any key is not pressed withing 10 ms, continue the loop
     if (waitKey(10) == 27) {
-      cout << "Esc key is pressed by user. Stoppig the video" << endl;
       break;
     }
   }
-
   return 0;
 }
