@@ -93,16 +93,26 @@
     <ClCompile Include="cefsimple\simple_app.cc" />
     <ClCompile Include="cefsimple\simple_handler.cc" />
     <ClCompile Include="cefsimple\simple_handler_win.cc" />
+    <ClCompile Include="handlers\functionhandler.cpp" />
+    <ClCompile Include="handlers\mybrowserprocesshandler.cpp" />
+    <ClCompile Include="handlers\myrenderprocesshandler.cpp" />
+    <ClCompile Include="handlers\opencvhandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cefsimple\simple_app.h" />
     <ClInclude Include="cefsimple\simple_handler.h" />
+    <ClInclude Include="handlers\functionhandler.h" />
+    <ClInclude Include="handlers\iframehandler.h" />
+    <ClInclude Include="handlers\opencvhandler.h" />
+    <ClInclude Include="handlers\mybrowserprocesshandler.h" />
+    <ClInclude Include="handlers\myrenderprocesshandler.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="compatibility.manifest" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />
+    <None Include="html\index.html" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,6 +8,12 @@
     <Filter Include="cefsimple">
       <UniqueIdentifier>{daba5f3b-47a5-455c-9b8d-0f27d28c736b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="handlers">
+      <UniqueIdentifier>{d64944f3-e7f3-4cdf-b483-3e1f52116b01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="html">
+      <UniqueIdentifier>{80ab0440-a9dc-4d13-a7cc-c16e2db7c8e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cef-opencv.cpp">
@@ -22,6 +28,18 @@
     <ClCompile Include="cefsimple\simple_handler_win.cc">
       <Filter>cefsimple</Filter>
     </ClCompile>
+    <ClCompile Include="handlers\myrenderprocesshandler.cpp">
+      <Filter>handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="handlers\mybrowserprocesshandler.cpp">
+      <Filter>handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="handlers\functionhandler.cpp">
+      <Filter>handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="handlers\opencvhandler.cpp">
+      <Filter>handlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cefsimple\simple_app.h">
@@ -30,11 +48,29 @@
     <ClInclude Include="cefsimple\simple_handler.h">
       <Filter>cefsimple</Filter>
     </ClInclude>
+    <ClInclude Include="handlers\myrenderprocesshandler.h">
+      <Filter>handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="handlers\mybrowserprocesshandler.h">
+      <Filter>handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="handlers\functionhandler.h">
+      <Filter>handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="handlers\opencvhandler.h">
+      <Filter>handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="handlers\iframehandler.h">
+      <Filter>handlers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="compatibility.manifest" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />
+    <None Include="html\index.html">
+      <Filter>html</Filter>
+    </None>
   </ItemGroup>
 </Project>

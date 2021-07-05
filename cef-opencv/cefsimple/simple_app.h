@@ -8,22 +8,25 @@
 #include "include/cef_app.h"
 
 // Implement application-level callbacks for the browser process.
-class SimpleApp : public CefApp, public CefBrowserProcessHandler {
- public:
-  SimpleApp();
+class SimpleApp : public CefApp {
+public:
+    SimpleApp();
 
-  // CefApp methods:
-  CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() OVERRIDE {
-    return this;
-  }
+    // CefApp methods:
+    CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override;
 
-  // CefBrowserProcessHandler methods:
-  void OnContextInitialized() OVERRIDE;
-  CefRefPtr<CefClient> GetDefaultClient() OVERRIDE;
+    CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() override;
 
- private:
-  // Include the default reference counting implementation.
-  IMPLEMENT_REFCOUNTING(SimpleApp);
+    CefRefPtr<CefBrowserProcessHandler> mBrowserProcessHandler = nullptr;
+    CefRefPtr<CefRenderProcessHandler> mRenderProcessHandler = nullptr;
+
+    // CefBrowserProcessHandler methods:
+    // void OnContextInitialized() OVERRIDE;
+    // CefRefPtr<CefClient> GetDefaultClient() OVERRIDE;
+
+private:
+    // Include the default reference counting implementation.
+    IMPLEMENT_REFCOUNTING(SimpleApp);
 };
 
 #endif  // CEF_TESTS_CEFSIMPLE_SIMPLE_APP_H_

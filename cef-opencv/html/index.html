@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>Index</title>
+</head>
+<body>
+    <canvas id="myCanvas" width="800" height="600" style="border:1px solid #000000;">
+    </canvas>
+    <script language="JavaScript">
+        function drawFrame() {
+            var data = window.getFrame();
+            draw(data);
+        }
+
+        function draw(imgData) {
+            "use strict";
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+
+            var uInt8Array = new Uint8Array(imgData);
+            var i = uInt8Array.length;
+            var binaryString = [i];
+            while (i--) {
+                binaryString[i] = String.fromCharCode(uInt8Array[i]);
+            }
+            var data = binaryString.join('');
+
+            var base64 = window.btoa(data);
+
+            var img = new Image();
+            img.src = "data:image/jpeg;base64," + base64;
+            img.onload = function () {
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            };
+            img.onerror = function (error) {
+                console.log("Img Onerror:", error);
+            };
+        }
+
+        window.setInterval(drawFrame, 33);
+
+    </script>
+</body>
+</html>

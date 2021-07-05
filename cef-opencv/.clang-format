@@ -2,3 +2,5 @@
 
 BasedOnStyle: Google
 SortIncludes: false
+AccessModifierOffset: -4
+IndentWidth: 4
